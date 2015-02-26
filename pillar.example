@@ -1,0 +1,21 @@
+sssd:
+  sssd:
+    domains: example.com
+  domain/cloud.ee:
+    min_id: 10000
+    id_provider: ldap
+    access_provider: permit
+    enumerate: False
+    cache_credentials: True
+    ldap_schema: rfc2307bis
+
+    # connection information
+    ldap_uri: ldap[s]://<host>[:port]
+    ldap_default_bind_dn: uid=sssd,ou=Service,dc=example,dc=com
+    ldap_default_authtok_type: password
+    ldap_default_authtok: supersecret
+
+    # directory structure configuration
+    ldap_search_base: dc=example,dc=com
+    ldap_user_gecos: displayName
+      

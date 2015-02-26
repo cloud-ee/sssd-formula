@@ -1,0 +1,25 @@
+# Set the sssd default config
+{%- set sssd_config = {
+  "sssd": {
+    "debug_level": "1",
+    "config_file_version": "2",
+    "services": "nss, pam",
+    "domains": "example.com",
+  },
+  "nss": {
+    "nss_filter_groups": "root",
+    "nss_filter_users": "root",
+    "nss_entry_cache_timeout": "30",
+    "nss_enum_cache_timeout": "30",
+  },
+} %}
+
+{% for section, value in salt["pillar.get"]("sssd", {} ).iteritems() %}
+  {% if not sssd_config.has_key(section) %}
+    {% do sssd_config.update({ section:{} }) %}
+  {% endif %}
+  {% do sssd_config[section].update(value) %}
+{% endfor %}
+
+{#- vim:ft=sls
+-#}
